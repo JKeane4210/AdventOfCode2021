@@ -177,7 +177,6 @@ void part_2() {
             if (winner) {
                 latest_winner = grid_idx;
                 isWinner[grid_idx] = true;
-//                cout << grid_idx << " won!" << endl;
             }
             ++grid_idx;
         }
