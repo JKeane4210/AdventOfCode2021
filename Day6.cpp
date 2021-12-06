@@ -65,8 +65,8 @@ void part_2() {
     string line;
     cin >> line;
     long fish_counts[9];
-    for (int i = 0; i < 9; ++i) {
-        fish_counts[i] = 0;
+    for (long & fish_count : fish_counts) {
+        fish_count = 0;
     }
     size_t pos;
     while ((pos = line.find(",")) != string::npos) {
@@ -90,8 +90,8 @@ void part_2() {
         }
     }
     long res = 0;
-    for (int i = 0; i < 9; ++i) {
-        res += fish_counts[i];
+    for (long fish_count : fish_counts) {
+        res += fish_count;
     }
     cout << "Solution for Part 2: " << res << endl;
 }
