@@ -71,6 +71,8 @@ int fuel_cost(int n) {
     return n * (n + 1) / 2;
 }
 
+// I went slightly more brute force but made a couple speed improvements with the
+// map and equation for the fuel cost
 void part_2() {
     ifstream cin("/Users/jkeane/CLionProjects/AdventOfCode2021/Input/day7.txt");
     map<int, int> crabs;
