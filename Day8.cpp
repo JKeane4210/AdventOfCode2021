@@ -153,14 +153,6 @@ int solve(string line) {
             }
         }
     }
-//    for (int i = 0; i < 10; ++i) {
-//        cout << i << ": ";
-//        for (char c: num_map[i]) {
-//            cout << c;
-//        }
-//        cout << endl;
-//    }
-//    cout << endl;
     string out;
     for (const set<char>& output: outputs) {
         for (int i = 0; i < 10; ++i) {
