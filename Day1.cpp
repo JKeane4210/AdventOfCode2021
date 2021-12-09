@@ -32,7 +32,7 @@
 
 using namespace std;
 
-int part_1() {
+void part_1() {
     ifstream cin("/Users/jkeane/CLionProjects/AdventOfCode2021/Input/day1.txt");
     int prev;
     cin >> prev;

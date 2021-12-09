@@ -32,7 +32,7 @@
 using namespace std;
 
 // made this part into a nice sweep problem althought excessive for input size :)
-int part_1() {
+void part_1() {
     ifstream cin("/Users/jkeane/CLionProjects/AdventOfCode2021/Input/day7.txt");
     vector<int> crabs;
     int move_cost = 0;

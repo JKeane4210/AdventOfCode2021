@@ -31,7 +31,7 @@
 
 using namespace std;
 
-int part_1() {
+void part_1() {
     ifstream cin("/Users/jkeane/CLionProjects/AdventOfCode2021/Input/day4.txt");
     vector<vector<vector<pair<int, bool>>>> grids;
     string order;

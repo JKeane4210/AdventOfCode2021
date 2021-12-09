@@ -43,7 +43,7 @@ void transform(vector<int> & fish) {
     for (long i = 0; i < new_fish; ++i) { fish.emplace_back(8); }
 }
 
-int part_1() {
+void part_1() {
     ifstream cin("/Users/jkeane/CLionProjects/AdventOfCode2021/Input/day6.txt");
     string line;
     cin >> line;

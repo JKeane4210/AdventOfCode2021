@@ -33,7 +33,7 @@ using namespace std;
 
 const string ARROW = " -> ";
 
-int part_1() {
+void part_1() {
     ifstream cin("/Users/jkeane/CLionProjects/AdventOfCode2021/Input/day5.txt");
     string line;
 
