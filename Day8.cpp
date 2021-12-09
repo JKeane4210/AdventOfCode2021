@@ -31,7 +31,7 @@
 
 using namespace std;
 
-void part_1() {
+int part_1() {
     ifstream cin("/Users/jkeane/CLionProjects/AdventOfCode2021/Input/day8.txt");
     int count_easy = 0;
     string line;

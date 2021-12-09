@@ -31,7 +31,7 @@
 
 using namespace std;
 
-void part_1() {
+int part_1() {
     ifstream cin("/Users/jkeane/CLionProjects/AdventOfCode2021/Input/day2.txt");
     int depth = 0;
     int horizontal = 0;

@@ -33,7 +33,7 @@ using namespace std;
 
 const int S = 12;
 
-void part_1() {
+int part_1() {
     ifstream cin("/Users/jkeane/CLionProjects/AdventOfCode2021/Input/day3.txt");
     string curr;
     int bit_counts[S][2];
