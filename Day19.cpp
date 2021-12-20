@@ -222,14 +222,12 @@ void part_2() {
                 visited.insert(make_pair(i, top));
                 scanner2 = similar_coords.first;
                 if (similar_coords.second == coord(0, 0, 0)) continue;
-                cout << similar_coords.second.x << " " << similar_coords.second.y << " " << similar_coords.second.z << endl;
                 scanner_locs[i] = similar_coords.second;
             }
         }
     }
     int max_dist = 0;
     for (const auto& c1: scanner_locs) {
-        cout << c1.x << " " << c1.y << " " << c1.z << endl;
         for (const auto& c2: scanner_locs) {
             int manhattan_distance = abs(c1.x - c2.x) + abs(c1.y - c2.y) + abs(c1.z - c2.z);
             max_dist = max(max_dist, manhattan_distance);
@@ -242,7 +240,7 @@ int main() {
     ios::sync_with_stdio(false);
     cin.tie(nullptr);
 
-//    part_1();
+    part_1();
     part_2();
 
     return 0;
