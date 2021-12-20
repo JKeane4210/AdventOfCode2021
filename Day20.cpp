@@ -92,7 +92,7 @@ void part_1() {
             }
         }
     }
-    cout << "Solution for Part 1: " << lit_count << endl;
+    cout << "Solution for Part 2: " << lit_count << endl;
 }
 
 void part_2() {
