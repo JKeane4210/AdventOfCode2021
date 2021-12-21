@@ -102,6 +102,12 @@ void part_2(int p1, int p2) {
                         // if the score is winning, see how many games of this at this location from the
                         // previous move it would have beat and multiply by number of instances of the
                         // winning game there are to add to the given player
+                        //
+                        // for a second, this felt like I was missing the fact that the universes split
+                        // for both, meaning more scalings by 27 rolls; however, if I am just solving how
+                        // many instances each player gets to a situation I am trying to compute, then I
+                        // get the number of universes that got to this state by multiplying the counts
+                        // of each of the separate states
                         if (p1_score >= 21 && p2_score < 21) {
                             p1_games += dp1[moves][p1_loc][p1_score] * dp2[moves - 1][p2_loc][p2_score];
                         }
