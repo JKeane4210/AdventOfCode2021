@@ -239,7 +239,7 @@ int main() {
     cin.tie(0);
 
     part_1();
-//    part_2();
+    part_2();
 
     return 0;
 }
