@@ -78,13 +78,12 @@ public:
             for (int j = 0; j < grid[0].size(); ++j) {
                 if (COSTS.find(grid[i][j]) != COSTS.end()) { // if is amphipod
                     for (auto dest: dests(i, j, 0, i, j, COSTS.at(grid[i][j]), set<pair<int, int>>(), grid[i][j])) {
-//                        cout << dest.row << " " << dest.col << " " << dest.energy_cost << endl;
                         if (dest.row > HALLWAY && COLS.at(grid[i][j]) != dest.col) continue; // if got to wrong room, skip
                         if (i == HALLWAY && !(COLS.at(grid[i][j]) == dest.col)) continue; // if in hallway to start and doesn't end up in room, skip
                         step new_step = step(energy + dest.energy_cost, array<string, t>(grid));
                         new_step.grid[dest.row][dest.col] = grid[i][j];
                         new_step.grid[i][j] = '.';
-                        if (!new_step.valid_grid()) {
+                        if (!new_step.valid_grid()) { // DEBUG
                             for (int k = 0; k < t; ++k) {
                                 cout << new_step.grid[k] << endl;
                             }
@@ -115,7 +114,6 @@ public:
         for (auto delta: DELTAS) { // add all other dests
             int nr = r + delta[0];
             int nc = c + delta[1];
-//            cout << grid[start_r][start_c] << " visiting " << nr << " " << nc << endl;
             if (grid[nr][nc] == '.' && visited.find(make_pair(nr, nc)) == visited.end()) {
                 set<pair<int, int>> new_visited(visited);
                 new_visited.insert(make_pair(nr, nc));
