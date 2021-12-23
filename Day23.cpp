@@ -153,6 +153,10 @@ public:
         }
         return res;
     }
+
+    friend bool operator <(const step & s1, const step & s2) {
+        return s1.energy > s2.energy;
+    }
 };
 
 bool is_done(step<5> s) {
@@ -182,20 +186,21 @@ void part_1() {
         grid[i] = line;
     }
     map<string, long> visited_grids;
-    queue<step<5>> q;
-    q.push(step<5>(0, grid));
+    priority_queue<step<5>> pq;
+    pq.push(step<5>(0, grid));
     long min_ = LONG_MAX;
-    while (!q.empty()) {
-        step<5> top = q.front();
-        q.pop();
+    while (!pq.empty()) {
+        step<5> top = pq.top();
+        pq.pop();
+        if (visited_grids.find(top.grid_str()) != visited_grids.end() ||
+            visited_grids[top.grid_str()] < top.energy) continue;
         if (is_done(top)) {
             min_ = min(min_, top.energy);
+            break;
         }
-        if (visited_grids.find(top.grid_str()) != visited_grids.end() &&
-            visited_grids[top.grid_str()] < top.energy) continue;
         visited_grids[top.grid_str()] = top.energy;
         for (const step<5> & s: top.valid_moves()) {
-            q.push(s);
+            pq.push(s);
         }
     }
     cout << "Solution for Part 1: " << min_ << endl;
@@ -234,7 +239,7 @@ int main() {
     cin.tie(0);
 
     part_1();
-    part_2();
+//    part_2();
 
     return 0;
 }
