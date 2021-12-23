@@ -163,6 +163,8 @@ void part_2() {
         map<cube, int> new_cubes;
         cube new_cube = cube(instr.x0, instr.xf, instr.y0, instr.yf, instr.z0, instr.zf);
 
+        // for every intersection added, update the count based on the parent
+        // - this is based on the principle of inclusion-exclusion
         for (auto p: on_cubes) {
             if (p.first.does_intersect(new_cube)) {
                 auto intersect = p.first.intersect(new_cube);
@@ -172,6 +174,8 @@ void part_2() {
                 new_cubes[intersect] -= p.second;
             }
         }
+        // now that we have "zeroed" everything, we can add an instance of the cube
+        // need to have the case of the entire zone already being intersected covered
         if (instr.turn_on) {
             if (new_cubes.find(new_cube) == new_cubes.end()) {
                 new_cubes[new_cube] = 1;
@@ -179,7 +183,7 @@ void part_2() {
                 new_cubes[new_cube] += 1;
             }
         }
-
+        // update the counts
         for (auto p: new_cubes) {
             if (on_cubes.find(p.first) != on_cubes.end()) {
                 on_cubes[p.first] += p.second;
