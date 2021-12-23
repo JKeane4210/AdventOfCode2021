@@ -39,61 +39,49 @@ public:
         turn_on(turn_on), x0(x0), xf(xf), y0(y0), yf(yf), z0(z0), zf(zf) {}
 };
 
-struct on_cube {
+struct cube {
 public:
     int x0, xf, y0, yf, z0, zf;
-    on_cube(int x0, int xf, int y0, int yf, int z0, int zf) :
-             x0(x0), xf(xf), y0(y0), yf(yf), z0(z0), zf(zf) {}
-    long long volume() {
-        return (abs((long long)(xf - x0)) + 1) * (abs((long long)(yf - y0)) + 1) * (abs((long long)(zf - z0)) + 1);
-    }
-    on_cube intersect(on_cube other) {
-        return on_cube(max(other.x0, x0), min(other.xf, xf),
-                       max(other.y0, y0), min(other.yf, yf),
-                       max(other.z0, z0), min(other.xf, zf));
+    cube(int x0, int xf, int y0, int yf, int z0, int zf) :
+             x0(x0), xf(xf), y0(y0), yf(yf), z0(z0), zf(zf) {
+        if (x0 > xf || y0 > yf || z0 > zf) {
+            cout << "Something wrong" << endl;
+        }
     }
 
-    vector<on_cube> apply_instruction(instruction instr, bool keep_inner = true) {
-        if (instr.turn_on) {
-            vector<on_cube> res;
-            if (keep_inner) {
-                res.emplace_back(on_cube(x0, xf, y0, yf, z0, zf)); // original cube
-            }
-            if (instr.x0 < x0) {
-                res.emplace_back(on_cube(instr.x0, min(instr.xf, x0 - 1),
-                                     instr.y0, instr.yf,
-                                     instr.z0, instr.zf)); // left
-            }
-            if (instr.xf > xf) {
-                res.emplace_back(on_cube(max(instr.x0, xf + 1), instr.xf,
-                                         instr.y0, instr.yf,
-                                         instr.z0, instr.zf)); // right
-            }
-            if (instr.y0 < y0) {
-                res.emplace_back(on_cube(max(x0, instr.x0), min(xf, instr.xf),
-                                         instr.y0, min(instr.yf, y0 - 1),
-                                         instr.z0, instr.zf)); // front
-            }
-            if (instr.yf > yf) {
-                res.emplace_back(on_cube(max(x0, instr.x0), min(xf, instr.xf),
-                                         max(instr.y0, yf + 1), instr.yf,
-                                         instr.z0, instr.zf)); // back
-            }
-            if (instr.z0 < z0) {
-                res.emplace_back(on_cube(max(x0, instr.x0), min(xf, instr.xf),
-                                         max(y0, instr.y0), min(yf, instr.yf),
-                                         instr.z0, min(instr.zf, z0 - 1))); // bottom
-            }
-            if (instr.zf > zf) {
-                res.emplace_back(on_cube(max(x0, instr.x0), min(xf, instr.xf),
-                                         max(y0, instr.y0), min(yf, instr.yf),
-                                         max(instr.z0, zf + 1), instr.zf)); // bottom
-            }
-            return res;
-        } else {
-            on_cube inner(instr.x0, instr.xf, instr.y0, instr.yf, instr.z0, instr.zf);
-            return inner.apply_instruction(instruction(true, x0, xf, y0, yf, z0, zf), false);
-        }
+    long long volume() const {
+        return (abs((long long)(xf - x0)) + 1) *
+                (abs((long long)(yf - y0)) + 1) *
+                (abs((long long)(zf - z0)) + 1);
+    }
+
+    bool does_intersect(cube other) const {
+        return !(other.x0 > xf || other.xf < x0 ||
+                 other.y0 > yf || other.yf < y0 ||
+                 other.z0 > zf || other.zf < z0);
+    }
+
+    cube intersect(cube other) const {
+        return {max(other.x0, x0), min(other.xf, xf),
+                max(other.y0, y0), min(other.yf, yf),
+                max(other.z0, z0), min(other.zf, zf)};
+    }
+
+    friend bool operator == (const cube & c1, const cube & c2) {
+        return c1.x0 == c2.x0 && c1.xf == c2.xf &&
+                c1.y0 == c2.y0 && c1.yf == c2.yf &&
+                c1.z0 == c2.z0 && c1.zf == c2.zf;
+    }
+
+    friend bool operator < (const cube & c1, const cube & c2) {
+        return make_tuple(c1.x0, c1.xf, c1.y0, c1.yf, c1.z0, c1.zf) < make_tuple(c2.x0, c2.xf, c2.y0, c2.yf, c2.z0, c2.zf);
+    }
+
+    string to_string() const {
+        return "Cube:\n"
+                        "\tx [" + std::__1::to_string(x0) + "," + std::__1::to_string(xf) + "]\n" +
+                        "\ty [" + std::__1::to_string(y0) + "," + std::__1::to_string(yf) + "]\n" +
+                        "\tz [" + std::__1::to_string(z0) + "," + std::__1::to_string(zf) + "]";
     }
 };
 
@@ -148,9 +136,9 @@ void part_1() {
 }
 
 void part_2() {
-    ifstream cin("/Users/jkeane/CLionProjects/AdventOfCode2021/Input/day22test.txt");
+    ifstream cin("/Users/jkeane/CLionProjects/AdventOfCode2021/Input/day22.txt");
     vector<instruction> instructions;
-    vector<on_cube> on_cubes;
+    map<cube, int> on_cubes;
     string line;
     while (getline(cin, line)) {
         if (line.empty()) break;
@@ -170,35 +158,38 @@ void part_2() {
         int zf = stoi(line);
         instructions.emplace_back(instruction(turn_on, x0, xf, y0, yf, z0, zf));
     }
-    int ind = 0;
-    for (auto instr: instructions) {
-        if (on_cubes.empty() && instr.turn_on) {
-            on_cubes.emplace_back(on_cube(instr.x0, instr.xf, instr.y0, instr.yf, instr.z0, instr.zf));
-        } else {
-            vector<on_cube> new_cubes;
-            for (auto cube: on_cubes) {
-                for (auto new_cube: cube.apply_instruction(instr)) {
-//                    cout << new_cube.volume() << endl;
-                    if (new_cube.volume() > 0) {
-                        new_cubes.emplace_back(new_cube);
-                    }
-                }
-            }
-            on_cubes = new_cubes;
-        }
-        cout << on_cubes.size() << endl;
-        long long total_volume = 0;
-        for (auto c: on_cubes) {
-            total_volume += c.volume();
-        }
-//        cout << "*" <<  total_volume << endl;
-//        if (ind++ > 3) {
-//            return;
-//        }
-    }
     long long on_count = 0;
-    for (auto cube: on_cubes) {
-        on_count += cube.volume();
+    for (auto instr: instructions) {
+        map<cube, int> new_cubes;
+        cube new_cube = cube(instr.x0, instr.xf, instr.y0, instr.yf, instr.z0, instr.zf);
+
+        for (auto p: on_cubes) {
+            if (p.first.does_intersect(new_cube)) {
+                auto intersect = p.first.intersect(new_cube);
+                if (new_cubes.find(intersect) == new_cubes.end()) {
+                    new_cubes[intersect] = 0;
+                }
+                new_cubes[intersect] -= p.second;
+            }
+        }
+        if (instr.turn_on) {
+            if (new_cubes.find(new_cube) == new_cubes.end()) {
+                new_cubes[new_cube] = 1;
+            } else {
+                new_cubes[new_cube] += 1;
+            }
+        }
+
+        for (auto p: new_cubes) {
+            if (on_cubes.find(p.first) != on_cubes.end()) {
+                on_cubes[p.first] += p.second;
+            } else {
+                on_cubes[p.first] = p.second;
+            }
+        }
+    }
+    for (auto p: on_cubes) {
+        on_count += p.first.volume() * p.second;
     }
     cout << "Solution for Part 2: " << on_count << endl;
 }
