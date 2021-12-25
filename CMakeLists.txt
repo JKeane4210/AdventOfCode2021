@@ -27,4 +27,5 @@ add_executable(Day21 Day21.cpp)
 add_executable(Day22 Day22.cpp)
 add_executable(Day23 Day23.cpp)
 add_executable(Day24 Day24.cpp)
+add_executable(Day25 Day25.cpp)
 
